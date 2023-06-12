@@ -1,21 +1,38 @@
-import gym
-
-from stable_baselines3 import PPO
+from stable_baselines3 import A2C
 from stable_baselines3.common.env_util import make_vec_env
 
-# Parallel environments
-vec_env = make_vec_env("MountainCar-v0", n_envs=4)
+ENV_KEY="CartPole-v1"
+RENDER_TYPE="ansi"
 
-model = PPO("MlpPolicy", vec_env, verbose=1)
-model.learn(total_timesteps=25000)
-model.save("ppo_cartpole")
+env = make_vec_env(ENV_KEY, n_envs=4)
 
-del model # remove to demonstrate saving and loading
+def train(timeout:int) -> A2C:
+    model = A2C("MlpPolicy", env, verbose=0)
+    print("Trainning model")
+    model.learn(total_timesteps=timeout, progress_bar=True)
+    return model
 
-model = PPO.load("ppo_cartpole")
+def test(model:A2C, sample:int):
+    obs = env.reset()
+    result = []
+    for _ in range(sample):
+        obs = env.reset()
 
-obs = vec_env.reset()
-while True:
-    action, _states = model.predict(obs)
-    obs, rewards, dones, info = vec_env.step(action)
-    vec_env.render("human")
+        action, _ = model.predict(obs)
+        obs, _, terminated, _ = env.step(action)
+        steps = 1
+
+        while not any(terminated):
+            action, _ = model.predict(obs)
+            obs, _, terminated, _ = env.step(action)
+            steps+=1
+        
+        result.append(steps)
+    
+    print(result)
+    result.sort()
+    print(f"Mean: {sum(result)/len(result)}")
+    print(f"Min: {result[0]}\nMax: {result[-1]}")
+
+model = train(25000)
+test(model, 10)
