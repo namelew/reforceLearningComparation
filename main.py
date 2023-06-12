@@ -1,5 +1,6 @@
-from stable_baselines3 import A2C
+from stable_baselines3 import A2C,PPO
 from stable_baselines3.common.env_util import make_vec_env
+from Algoritmos import Algoritmo
 
 ENV_KEY="CartPole-v1"
 LEARNING_RATE=1
@@ -10,34 +11,11 @@ GAEL=0.01
 # n_envs é o número de instâncias em paralelo
 env = make_vec_env(ENV_KEY, n_envs=4)
 
-def train(timeout:int) -> A2C:
-    # timeout is in number of steps
-    model = A2C("MlpPolicy", env, verbose=0)
-    print("Training model")
-    model.learn(total_timesteps=timeout, progress_bar=True)
-    return model
+algoritmos = (
+    Algoritmo("A2C", A2C("MlpPolicy", env, verbose=0)),
+    Algoritmo("PPO", PPO("MlpPolicy", env, verbose=0))
+)
 
-def test(model:A2C, sample:int):
-    obs = env.reset()
-    result = []
-    for _ in range(sample):
-        obs = env.reset()
-
-        action, _ = model.predict(obs)
-        obs, _, terminated, _ = env.step(action)
-        steps = 1
-
-        while not any(terminated):
-            action, _ = model.predict(obs)
-            obs, _, terminated, _ = env.step(action)
-            steps+=1
-        
-        result.append(steps)
-    
-    print(result)
-    result.sort()
-    print(f"Mean: {sum(result)/len(result)}")
-    print(f"Min: {result[0]}\nMax: {result[-1]}")
-
-model = train(1000)
-test(model, 10)
+for algorimo in algoritmos:
+    algorimo.train(1000)
+    algorimo.test(10)
