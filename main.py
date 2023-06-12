@@ -2,13 +2,18 @@ from stable_baselines3 import A2C
 from stable_baselines3.common.env_util import make_vec_env
 
 ENV_KEY="CartPole-v1"
-RENDER_TYPE="ansi"
+LEARNING_RATE=1
+ENTROPY=0.01
+GAMA=0.01
+GAEL=0.01
 
+# n_envs é o número de instâncias em paralelo
 env = make_vec_env(ENV_KEY, n_envs=4)
 
 def train(timeout:int) -> A2C:
+    # timeout is in number of steps
     model = A2C("MlpPolicy", env, verbose=0)
-    print("Trainning model")
+    print("Training model")
     model.learn(total_timesteps=timeout, progress_bar=True)
     return model
 
@@ -34,5 +39,5 @@ def test(model:A2C, sample:int):
     print(f"Mean: {sum(result)/len(result)}")
     print(f"Min: {result[0]}\nMax: {result[-1]}")
 
-model = train(25000)
+model = train(1000)
 test(model, 10)
