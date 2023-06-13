@@ -3,17 +3,17 @@ from stable_baselines3.common.env_util import make_vec_env
 from Algoritmos import Algoritmo
 
 ENV_KEY="CartPole-v1"
-LEARNING_RATE=0.8
-TIMEOUT=1000
+TIMEOUT=10000
 TEST_SAMPLE=100
-ENTROPY=0.01
-GAMA=0.01
-GAEL=0.01
+LEARNING_RATE=0.0007
+ENTROPY=0
+GAMA=0.99
+GAEL=1
 
 env = make_vec_env(ENV_KEY, n_envs=4)
 
 algoritmos = (
-    Algoritmo("A2C", A2C("MlpPolicy",env,learning_rate=LEARNING_RATE,gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0)),
+    #Algoritmo("A2C", A2C("MlpPolicy",env,learning_rate=LEARNING_RATE,gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0)),
     Algoritmo("PPO", PPO("MlpPolicy",env,learning_rate=LEARNING_RATE, gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0))
 )
 
