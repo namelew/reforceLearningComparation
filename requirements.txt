@@ -1,4 +1,5 @@
 stable-baselines3
 stable-baselines3[extra]
 gym
+pandas
 pyglet

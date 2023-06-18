@@ -1,7 +1,7 @@
 from stable_baselines3.common.base_class import BaseAlgorithm
 
 class Algoritmo:
-    def __init__(self, name:str, model:BaseAlgorithm) -> None:
+    def __init__(self, name:str, model:BaseAlgorithm) -> tuple[int,int,int]:
         self.name:str = name
         self.model:BaseAlgorithm = model
     def train(self, timeout:int):
@@ -9,7 +9,7 @@ class Algoritmo:
         self.model.learn(total_timesteps=timeout, progress_bar=True)
     def test(self, sample:int):
         env = self.model.get_env()
-        result = []
+        result:int = []
         print(f"\nTesting {self.name} model")
         for _ in range(sample):
             obs = env.reset()
@@ -25,6 +25,7 @@ class Algoritmo:
             
             result.append(steps)
         result.sort()
-        print(f"Results - {self.name}")
-        print(f"Mean: {sum(result)/len(result)}")
+        mean = round(sum(result)/len(result))
+        print(f"Mean: {mean}")
         print(f"Min: {result[0]}\nMax: {result[-1]}")
+        return result[0], result[-1], mean
