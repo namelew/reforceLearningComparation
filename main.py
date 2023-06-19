@@ -25,8 +25,8 @@ results = []
 
 for _ in range(RUNS):
     algoritmos = (
-        Algoritmo("A2C", A2C("MlpPolicy",env,learning_rate=LEARNING_RATE,gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0)),
-        Algoritmo("PPO", PPO("MlpPolicy",env,learning_rate=LEARNING_RATE, gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0))
+        Algoritmo("A2C", A2C("MlpPolicy",env,device="cuda",learning_rate=LEARNING_RATE,gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0)),
+        Algoritmo("PPO", PPO("MlpPolicy",env,device="cuda",learning_rate=LEARNING_RATE, gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0))
     )
 
     for algorimo in algoritmos:
