@@ -6,7 +6,7 @@ from Algoritmos import Algoritmo
 ENV_KEY="CartPole-v1"
 RUNS = 1
 TIMEOUT=25000
-TEST_SAMPLE=TIMEOUT * 0.1
+TEST_SAMPLE=round(TIMEOUT * 0.1)
 
 LEARNING_RATE=0
 ENTROPY=0
@@ -25,8 +25,8 @@ results = []
 
 for _ in range(RUNS):
     algoritmos = (
-        Algoritmo("A2C", A2C("MlpPolicy",env,device="cuda",learning_rate=LEARNING_RATE,gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0)),
-        Algoritmo("PPO", PPO("MlpPolicy",env,device="cuda",learning_rate=LEARNING_RATE, gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0))
+        Algoritmo("A2C", A2C("MlpPolicy",env,device="cuda",seed=42,learning_rate=LEARNING_RATE,gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0)),
+        Algoritmo("PPO", PPO("MlpPolicy",env,device="cuda",seed=42,learning_rate=LEARNING_RATE, gamma=GAMA,gae_lambda=GAEL,ent_coef=ENTROPY,verbose=0))
     )
 
     for algorimo in algoritmos:
