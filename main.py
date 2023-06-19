@@ -4,8 +4,8 @@ import pandas as pd
 from Algoritmos import Algoritmo
 
 ENV_KEY="CartPole-v1"
-RUNS = 10
-TIMEOUT=10000
+RUNS = 1
+TIMEOUT=25000
 TEST_SAMPLE=100
 
 LEARNING_RATE=0
