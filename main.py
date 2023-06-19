@@ -40,4 +40,4 @@ for _ in range(RUNS):
     GAEL += GAEL_PASS
 
 dataset = pd.DataFrame(results)
-dataset.to_csv("resultados.csv",sep=',', header=["algoritmo", "ambiente", "tempo", "taxa-aprendizado", "entropia", "gama", "gae-lambda", "min-passos", "max-passos", "media-passos"])
+dataset.to_csv("resultados.csv",sep=',', header=["algoritmo", "ambiente", "tempo", "taxa-aprendizado", "entropia", "gama", "gae-lambda", "min-passos", "max-passos", "media-passos"], index=False)
